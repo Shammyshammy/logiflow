@@ -1,58 +1,181 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LogiFlow — Logistics Management & Tracking System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern logistics management platform built with **Laravel 13**, **Tailwind CSS v4**, and **Alpine.js**. Manage shipments, drivers, vehicles, and customers — with real-time tracking, email notifications, and a public booking form.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Public
+- **Shipment tracking** — enter any tracking number and see the full status timeline with location history
+- **Booking form** — customers can create shipments without an account
+- **Animated landing page** with hero + scroll reveals
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Admin & Staff
+- Full CRUD for **shipments**, **customers**, **drivers**, **vehicles**
+- **Assign** drivers + vehicles to shipments
+- **Update status** with location + note (tracked timeline)
+- **Dashboard** with stats + charts (7-day trend, status breakdown)
+- **CSV + PDF export** (single shipment + bulk)
+- **Activity log** (audit trail of every action)
+- **In-app notifications** with unread badge
+- **Dark mode** with persistence
+- **ETA calculations** with overdue highlighting
+- **Leaflet maps** showing origin → destination routes
 
-## Learning Laravel
+### Driver
+- Dedicated dashboard showing assigned deliveries only
+- Self-service status updates (picked up → in transit → delivered)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Customer
+- Self-service dashboard showing only their own shipments
+- Booking confirmation + status update emails
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### System
+- Role-based access control (`admin`, `staff`, `driver`, `customer`)
+- Email notifications on status changes (markdown mailables)
+- Event-driven architecture (Laravel events + listeners)
+- Zero external SaaS dependency — runs on any LAMP/LEMP stack
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+---
 
-## Agentic Development
+## 🧰 Tech Stack
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Layer | Tech |
+|---|---|
+| Backend | Laravel 13 (PHP 8.3+) |
+| Database | MySQL / MariaDB |
+| Frontend (public) | Blade + custom CSS (LogiFlow design system) |
+| Frontend (admin) | Blade + Tailwind CSS v4 |
+| Interactivity | Alpine.js, Chart.js, Leaflet |
+| Auth | Laravel Breeze (Blade) |
+| Mail | Laravel Mail (markdown mailables) |
+| PDF | barryvdh/laravel-dompdf |
+
+---
+
+## 🚀 Installation
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/Shammyshammy/logiflow.git
+cd logiflow
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Configure your database in `.env`:
 
-## Contributing
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=logiflow
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Then:
 
-## Code of Conduct
+```bash
+php artisan migrate --seed
+npm run build
+php artisan serve
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Visit `http://127.0.0.1:8000`.
 
-## Security Vulnerabilities
+### Default Seeded Accounts
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Role | Email | Password |
+|---|---|---|
+| Admin | `admin@logiflow.test` | `password` |
+| Staff | `staff@logiflow.test` | `password` |
+| Driver | `driver@logiflow.test` | `password` |
+| Customer | `customer@logiflow.test` | `password` |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 📧 Email Configuration
+
+During development, emails are written to `storage/logs/laravel.log`:
+
+```env
+MAIL_MAILER=log
+```
+
+For production, use any SMTP provider:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.yourprovider.com
+MAIL_PORT=587
+MAIL_USERNAME=...
+MAIL_PASSWORD=...
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="noreply@yourdomain.com"
+MAIL_FROM_NAME="LogiFlow"
+```
+
+---
+
+## 🗂️ Project Structure
+
+```
+app/
+├── Events/                 ShipmentStatusUpdated
+├── Http/Controllers/       All controllers
+├── Http/Middleware/        EnsureUserHasRole
+├── Listeners/              SendShipmentStatusEmail
+├── Mail/                   ShipmentStatusChanged mailable
+├── Models/                 Shipment, Customer, Driver, Vehicle, etc.
+└── Notifications/          ShipmentStatusNotification
+
+database/
+├── migrations/             All schema
+└── seeders/                LogiflowSeeder
+
+resources/
+├── css/
+│   ├── app.css             Entry point
+│   └── logiflow.css        Public design system + admin styles
+└── views/
+    ├── layouts/            public.blade.php, admin.blade.php, auth.blade.php
+    ├── tracking/           Public tracking pages
+    ├── booking/            Public booking form + success
+    ├── shipments/          CRUD + PDF
+    ├── customers/          CRUD
+    ├── drivers/            CRUD
+    ├── vehicles/           CRUD
+    ├── notifications/      In-app notifications
+    ├── activity/           Audit log
+    ├── emails/             Markdown email templates
+    └── vendor/mail/        Published mail components
+```
+
+---
+
+## 🧪 Testing
+
+```bash
+php artisan test
+```
+
+---
+
+## 📸 Screenshots
+
+> Add screenshots here. Suggested:
+> - Landing page (`/`)
+> - Tracking result (`/track/LGF-...`)
+> - Admin dashboard
+> - Shipment detail with Leaflet map
+> - Driver dashboard
+> - Dark mode admin
+
+---
+
+## 📝 License
+
+MIT
