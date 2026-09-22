@@ -2,7 +2,9 @@
 
 A modern logistics management platform built with **Laravel 13**, **Tailwind CSS v4**, and **Alpine.js**. Manage shipments, drivers, vehicles, and customers — with real-time tracking, email notifications, and a public booking form.
 
----
+
+![Tests](https://github.com/Shammyshammy/logiflow/actions/workflows/tests.yml/badge.svg)
+
 
 ## ✨ Features
 
