@@ -166,13 +166,17 @@ php artisan test
 
 ## 📸 Screenshots
 
-> Add screenshots here. Suggested:
-> - Landing page (`/`)
-> - Tracking result (`/track/LGF-...`)
-> - Admin dashboard
-> - Shipment detail with Leaflet map
-> - Driver dashboard
-> - Dark mode admin
+> - Landing page - home(2).png
+> - Tracking result - trackresult.png
+> - Admin dashboard - admindashboard.png
+> - Booking - book.png
+> - Customers - customers.png
+> - Drivers - drivers.png
+> - Login - login(2).png
+> - Register - register(2).png
+> - Shipment detail with Leaflet map - trackresult.png
+> - Driver dashboard - driverdashboard.png
+> - Dark mode admin - admindashboard darkmode.png
 
 ---
 
